@@ -1,1 +1,42 @@
 @import "tailwindcss";
+
+.cards {
+  @apply text-[black] bg-[#b8b6b641] max-w-[200px] rounded-2xl pb-[20px] flex flex-col hover:transition-transform hover:translate-y-[-5px] hover:duration-300 cursor-pointer
+}
+
+.imgWrapper {
+  @apply bg-[#F6F7F9] w-full rounded-2xl hover:rounded-[0px]
+}
+
+.title {
+  @apply px-[10px] font-bold pt-[10px]
+}
+
+.price {
+  @apply pt-[20px] px-[10px] mt-auto
+}
+
+.button {
+  @apply px-[20px] py-[12px] border-1 border-red-500 text-[#d62c2c] hover:text-[white] hover:bg-[#d62c2c] hover:duration-300 rounded-2xl
+}
+
+.buttonWrapper {
+  @apply flex justify-center mt-auto
+}
+
+.imageWrapper {
+  @apply fixed inset-0 z-50 flex items-center justify-center bg-black/40;
+}
+
+.image {
+  @apply bg-white p-4 rounded-2xl max-w-[600px] overflow-hidden;
+}
+
+.imagesContainer {
+  @apply flex transition-transform duration-300 ease-in-out;
+}
+
+.imageElement {
+  @apply w-[600px] flex-shrink-0 cursor-pointer;
+}
+
