@@ -1,3 +1,4 @@
+
 async function getProduct() {
   try {
     const res = await fetch("http://localhost:5000/products");
@@ -8,15 +9,19 @@ async function getProduct() {
   }
 }
 
+
 const allCardsElement = document.getElementById("all-cards");
 
-async function writeProduct() {
-  try {
+if (allCardsElement) {
+  async function writeProduct() {
     const products = await getProduct();
+    if (!products) return;
 
     products.forEach((element) => {
+
       const cardElement = document.createElement("div");
       cardElement.classList.add("cards");
+
 
       const imgWrapper = document.createElement("div");
       imgWrapper.classList.add("imgWrapper");
@@ -30,14 +35,20 @@ async function writeProduct() {
 
       const newTitle = document.createElement("h4");
       newTitle.textContent = element.name;
+      newTitle.style.cursor = "pointer";
+
 
       newTitle.addEventListener("click", () => {
         window.location.href = `about.html?id=${element.id}`;
       });
 
+      titleWrapper.appendChild(newTitle);
+
+
       const newPrice = document.createElement("p");
       newPrice.classList.add("price");
       newPrice.textContent = `$${element.price}`;
+
 
       const buttonDiv = document.createElement("div");
       buttonDiv.classList.add("buttonWrapper");
@@ -46,37 +57,40 @@ async function writeProduct() {
       newButton.classList.add("button");
       newButton.textContent = "Приобрести товар";
 
-      titleWrapper.appendChild(newTitle);
       buttonDiv.appendChild(newButton);
+
 
       cardElement.appendChild(imgWrapper);
       cardElement.appendChild(titleWrapper);
       cardElement.appendChild(newPrice);
       cardElement.appendChild(buttonDiv);
 
+
       allCardsElement.appendChild(cardElement);
     });
-  } catch (err) {
-    console.error("Ошибка рендера:", err);
   }
+  writeProduct();
 }
 
-writeProduct();
 
-if (window.location.pathname.includes("about.html")) {
+const urlParams = new URLSearchParams(window.location.search);
+const productId = urlParams.get('id');
 
+if (productId) {
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const productId = urlParams.get('id');
+    const showTargetProduct = () => {
+        const targetBlock = document.getElementById(`product-${productId}`);
+        if (targetBlock) {
+            targetBlock.classList.remove('hidden');
+            targetBlock.classList.add('flex');
+        } else {
+            console.warn("Блок для товара с ID " + productId + " не найден в HTML");
+        }
+    };
 
-  if (productId) {
-    const targetBlock = document.getElementById(`product-${productId}`);
-
-    if (targetBlock) {
-      targetBlock.classList.remove('hidden');
-      targetBlock.classList.add('flex');
+    if (document.readyState === 'loading') {
+        window.addEventListener('DOMContentLoaded', showTargetProduct);
     } else {
-      console.warn("Блок для товара с ID " + productId + " не найден в HTML");
+        showTargetProduct();
     }
-  }
 }
